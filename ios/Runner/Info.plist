@@ -50,7 +50,7 @@
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>NSPhotoLibraryUsageDescription</key>
-	string>Este app precisa acessar sua biblioteca de fotos para permitir que você escolha imagens para receitas.</string>
+	<string>Este app precisa acessar sua biblioteca de fotos para permitir que você escolha imagens para receitas.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Este app precisa acessar a câmera para tirar fotos de ingredientes ou pratos.</string>
 	<key>NSMicrophoneUsageDescription</key>
