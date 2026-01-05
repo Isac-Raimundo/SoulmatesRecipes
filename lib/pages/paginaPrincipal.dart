@@ -22,7 +22,7 @@ class modeloReceita {
   // Aqui eu chamo as variaveis que serão usadas no meu objeto.
   String nome;
   String ingredientes;
-  String preparo;
+  Map<String, dynamic> preparo;
   File? imagem; // "?" indica que o valor pode ser nulo.
   String dificuldade;
   String tempo;

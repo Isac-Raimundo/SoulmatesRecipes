@@ -15,11 +15,32 @@ class TelaCadastro extends StatefulWidget {
   State<TelaCadastro> createState() => _TelaCadastroState();
 }
 
+class modoDePreparo {
+  final TextEditingController tituloController = TextEditingController();
+  final TextEditingController descricaoController = TextEditingController();
+
+  Map<String, dynamic> toJson() {
+    return {
+      'titulo': tituloController.text,
+      'descricao': descricaoController.text,
+    };
+  }
+
+
+  void dispose() {
+    tituloController.dispose();
+    descricaoController.dispose();
+  }
+  // talvez precise do dispose, fazer teste
+}
+
 class _TelaCadastroState extends State<TelaCadastro> {
   // Informações que serão inseridas pelo usuário
   final _nomeController = TextEditingController();
   final _ingredientesController = TextEditingController();
-  final _preparoController = TextEditingController();
+  final List<modoDePreparo> _passos = [
+    modoDePreparo(),
+  ]; // aguarda objeto e começa vazia
   final _tempoPreparoController = TextEditingController();
   File? _imagemSelecionada;
 
@@ -49,9 +70,19 @@ class _TelaCadastroState extends State<TelaCadastro> {
     // Coloquei dentro de outras variáveis para ficar mais fácil de se achar
     final _nomeSupaBase = _nomeController.text;
     final _ingredientesSupaBase = _ingredientesController.text;
-    final _preparoSupaBase = _preparoController.text;
+    List<Map<String, dynamic>> preparoJson = _passos
+        .map((passo) => passo.toJson())
+        .toList();
+    preparoJson.removeWhere(
+      (passo) =>
+          (passo['titulo'] as String).trim().isEmpty &&
+          (passo['descricao'] as String).trim().isEmpty,
+    );
+    final _preparoSupaBase = preparoJson;
     final _dificuldadeSupaBase = _niveisDificuldade[_valorDificuldade.round()];
     final _tempoPreparoSupabase = _tempoPreparoController.text;
+
+    // talvez precise do dispose, fazer teste
 
     /*
     Só duas coisas são obrigatórias: o nome da receita e os ingredientes.
@@ -85,7 +116,7 @@ class _TelaCadastroState extends State<TelaCadastro> {
             'preparo': _preparoSupaBase,
             'imagem': urlPublica,
             'dificuldade': _dificuldadeSupaBase,
-            'tempo': _tempoPreparoSupabase
+            'tempo': _tempoPreparoSupabase,
           });
         } else {
           // Aqui eu subo algumas infos para o meu table no SupaBase
@@ -94,7 +125,7 @@ class _TelaCadastroState extends State<TelaCadastro> {
             'ingredientes': _ingredientesSupaBase,
             'preparo': _preparoSupaBase,
             'dificuldade': _dificuldadeSupaBase,
-            'tempo': _tempoPreparoSupabase
+            'tempo': _tempoPreparoSupabase,
           });
         }
       } catch (e) {
@@ -323,29 +354,119 @@ class _TelaCadastroState extends State<TelaCadastro> {
                 screenHeight * 0.02,
                 0,
               ),
-              child: TextField(
-                minLines: 1,
-                maxLines: null,
-                controller: _preparoController,
-                keyboardType: TextInputType.multiline,
-                cursorColor: Colors.white,
-                style: TextStyle(color: Colors.white),
+              child: ListView.builder(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: _passos.length,
+                itemBuilder: (context, index) {
+                  return Card(
+                    color: Color(0xff221910),
+                    child: Padding(
+                      padding: EdgeInsetsGeometry.symmetric(horizontal: 20),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Passo ${index + 1}',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              if (_passos.length > 1)
+                                IconButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      _passos[index].dispose();
+                                      _passos.removeAt(index);
+                                    });
+                                  },
+                                  icon: Icon(Icons.close),
+                                ),
+                            ],
+                          ),
+                          SizedBox(height: 12),
 
-                decoration: InputDecoration(
-                  fillColor: Colors.white.withOpacity(0.1),
-                  filled: true,
-                  hintText: 'Ex.: Em uma panela coloque...',
-                  hintStyle: TextStyle(color: Colors.white.withOpacity(0.3)),
-                  labelStyle: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xff1D1617),
-                    fontSize: 20,
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide.none,
-                  ),
-                ),
+                          // Campo titulo
+                          TextField(
+                            controller: _passos[index].tituloController,
+                            minLines: 1,
+                            decoration: InputDecoration(
+                              hintText: 'Titulo do passo (Ex: bater a massa)',
+                              hintStyle: TextStyle(
+                                color: Colors.white.withOpacity(0.3),
+                              ),
+                              fillColor: Colors.white.withOpacity(0.1),
+                              filled: true,
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(12),
+                                borderSide: BorderSide.none,
+                              ),
+                            ),
+                          ),
+
+                          SizedBox(height: 12),
+
+                          // Campo descrição
+                          TextField(
+                            controller: _passos[index].descricaoController,
+                            minLines: 1,
+                            decoration: InputDecoration(
+                              hintText: 'Descrição detalhada do passo',
+                              hintStyle: TextStyle(
+                                color: Colors.white.withOpacity(0.3),
+                              ),
+                              fillColor: Colors.white.withOpacity(0.1),
+                              filled: true,
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(12),
+                                borderSide: BorderSide.none,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
+
+              // TextField(
+              //   minLines: 1,
+              //   maxLines: null,
+              //   controller: _preparoController,
+              //   keyboardType: TextInputType.multiline,
+              //   cursorColor: Colors.white,
+              //   style: TextStyle(color: Colors.white),
+              //
+              //   decoration: InputDecoration(
+              //     fillColor: Colors.white.withOpacity(0.1),
+              //     filled: true,
+              //     hintText: 'Ex.: Em uma panela coloque...',
+              //     hintStyle: TextStyle(color: Colors.white.withOpacity(0.3)),
+              //     labelStyle: TextStyle(
+              //       fontWeight: FontWeight.bold,
+              //       color: Color(0xff1D1617),
+              //       fontSize: 20,
+              //     ),
+              //     border: OutlineInputBorder(
+              //       borderRadius: BorderRadius.circular(12),
+              //       borderSide: BorderSide.none,
+              //     ),
+              //   ),
+              // ),
+            ),
+
+            Padding(
+              padding: EdgeInsets.only(top: 8.0),
+              child: TextButton.icon(
+                onPressed: () {
+                  setState(() {
+                    _passos.add(modoDePreparo());
+                  });
+                },
+                icon: Icon(Icons.add),
+                label: Text('Adicionar passo'),
               ),
             ),
 
@@ -359,7 +480,7 @@ class _TelaCadastroState extends State<TelaCadastro> {
               ),
               child: Row(
                 crossAxisAlignment:
-                CrossAxisAlignment.start, // Alinha os itens no topo
+                    CrossAxisAlignment.start, // Alinha os itens no topo
                 children: [
                   // COLUNA DA DIFICULDADE
                   Expanded(
@@ -378,10 +499,10 @@ class _TelaCadastroState extends State<TelaCadastro> {
                           max: 2,
                           divisions: 2,
                           activeColor:
-                          _coresDificuldade[_valorDificuldade.round()],
+                              _coresDificuldade[_valorDificuldade.round()],
                           inactiveColor: Colors.white.withOpacity(0.3),
                           thumbColor:
-                          _coresDificuldade[_valorDificuldade.round()],
+                              _coresDificuldade[_valorDificuldade.round()],
                           onChanged: (novoValor) {
                             setState(() {
                               _valorDificuldade = novoValor;
@@ -397,7 +518,7 @@ class _TelaCadastroState extends State<TelaCadastro> {
                   // COLUNA DO TEMPO DE PREPARO
                   SizedBox(
                     width:
-                    screenHeight *
+                        screenHeight *
                         0.15, // Define uma largura fixa para o campo
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -413,7 +534,8 @@ class _TelaCadastroState extends State<TelaCadastro> {
                         // Caixa de texto do tempo
                         SizedBox(
                           height:
-                          screenHeight * 0.05, // Altura para a caixa de texto
+                              screenHeight *
+                              0.05, // Altura para a caixa de texto
                           child: TextField(
                             controller: _tempoPreparoController,
                             textAlign: TextAlign.center,
@@ -427,7 +549,7 @@ class _TelaCadastroState extends State<TelaCadastro> {
                                 color: Colors.white.withOpacity(0.3),
                               ),
                               contentPadding:
-                              EdgeInsets.zero, // Remove padding interno
+                                  EdgeInsets.zero, // Remove padding interno
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12),
                                 borderSide: BorderSide.none,
@@ -502,7 +624,6 @@ class _TelaCadastroState extends State<TelaCadastro> {
                 ),
               ),
             ),
-
           ],
         ),
       ),

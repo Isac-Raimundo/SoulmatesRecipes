@@ -372,7 +372,7 @@ class _TelaDetalhesState extends State<TelaDetalhes> {
                   ),
                   child: Text(
                     textAlign: TextAlign.justify,
-                    widget.receita['preparo'],
+                    widget.receita['preparo'].text,
                     style: TextStyle(
                       color: Colors.white.withOpacity(0.5),
                       fontSize: screenHeight * 0.018,
