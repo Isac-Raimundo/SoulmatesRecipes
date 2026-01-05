@@ -1,12 +1,12 @@
-# Soulmates Recipes - App de Receitas Fitness 🍳🥗
+# Soulmates Recipes - App de Receitas 🍳🥗
 
-![Capa do App](URL_DA_IMAGEM_DA_CAPA_AQUI) <!--- Substitua pela URL de uma imagem de capa -->
+![Capa do App](assets/readme_images/definitivo.png)
 
 ## 📝 Descrição
 
-**Soulmates Recipes** é um aplicativo móvel construído com Flutter, pensado para quem busca um estilo de vida mais saudável. Ele funciona como um livro de receitas digital, permitindo que usuários salvem e consultem suas receitas fitness favoritas de forma fácil e organizada.
+**Soulmates Recipes** é um aplicativo para dispositivo móvel construído com Flutter, pensado para quem quer compartilhar receitas com uma pessoa querida. Ele funciona como um livro de receitas digital, permitindo que os usuários salvem e consultem suas receitas favoritas de forma fácil e organizada.
 
-Este projeto foi desenvolvido como uma forma de aplicar e aprofundar conhecimentos em desenvolvimento mobile com Flutter e integração com serviços de backend como o Supabase.
+Este foi o meu primeiro projeto. Minha ideia foi aprender, então existem muitas coisas para melhorar. Com este projeto aprendi muito sobre muitos widgets, sobre algumas bibliotecas, sobre integração com serviçoes de backend como o Supabase, que me ajudou muito e me deu armazenamento gratuito, e comecei a aplicar os conhecimentos em desenvolvimento mobile com Flutter.
 
 ## ✨ Funcionalidades
 
@@ -14,18 +14,25 @@ Este projeto foi desenvolvido como uma forma de aplicar e aprofundar conheciment
 - [x] **Detalhes da Receita:** Toque em uma receita para ver os ingredientes e o modo de preparo completos.
 - [x] **Adicionar Receitas:** Crie e salve novas receitas no banco de dados, incluindo uma foto.
 - [x] **Remover Receitas:** Apague receitas que não deseja mais.
+- [x] **Receita do dia:** Receba uma recomendação de receita do aplicativo com base nas suas receitas.
 - [ ] **(Futuro) Edição de Receitas:** Modificar receitas já existentes.
-- [ ] **(Futuro) Busca e Filtros:** Pesquisar receitas por nome ou dificuldade.
+- [ ] **(Futuro) Busca e favoritos:** Pesquisar receitas por ou acessar a aba de favoritos.
 
 ## 📸 Telas do Aplicativo
 
-| Tela Principal | Detalhes da Receita |
-| :---: | :---: |
-| ![Tela Principal](URL_DA_IMAGEM_1_AQUI) | ![Detalhes da Receita](URL_DA_IMAGEM_2_AQUI) |
+[//]: # ()
+[//]: # (| Tela Principal | Detalhes da Receita |)
 
-| Adicionar Receita |
-| :---: |
-| ![Adicionar Receita](URL_DA_IMAGEM_3_AQUI) |
+[//]: # (| :---: | :---: |)
+
+[//]: # (| ![Tela Principal]&#40;URL_DA_IMAGEM_1_AQUI&#41; | ![Detalhes da Receita]&#40;URL_DA_IMAGEM_2_AQUI&#41; |)
+
+[//]: # ()
+[//]: # (| Adicionar Receita |)
+
+[//]: # (| :---: |)
+
+[//]: # (| ![Adicionar Receita]&#40;URL_DA_IMAGEM_3_AQUI&#41; |)
 
 
 ## 🚀 Tecnologias Utilizadas
@@ -33,7 +40,6 @@ Este projeto foi desenvolvido como uma forma de aplicar e aprofundar conheciment
 - **Flutter:** Framework para desenvolvimento de interfaces de usuário nativas e multiplataforma.
 - **Dart:** Linguagem de programação utilizada pelo Flutter.
 - **Supabase:** Plataforma de Backend-as-a-Service, utilizada para:
-  - **Authentication:** (Ainda não implementado)
   - **Database:** Armazenamento das informações das receitas.
   - **Storage:** Salvamento das fotos das receitas.
 
@@ -43,24 +49,28 @@ Para rodar este projeto em sua máquina, siga os passos abaixo:
 
 1.  **Clone o repositório:**
     ```sh
-    git clone https://github.com/SEU-USUARIO/fitness.git
-    cd fitness
+    git clone https://github.com/Isac-Raimundo/SoulmatesRecipes.git
+    cd SoulmatesRecipes
     ```
 
 2.  **Instale as dependências do Flutter:**
     ```sh
     flutter pub get
     ```
+3. **Crie seu banco de dados no Supabase:**
+   - Na configuração do Supabase, utilize os nomes usados no código:
+   - Database (tables): `notes`
+   - colunas: `id` (int8), `created_at` (timestamptz), `nome` (text), `ingredientes` (text), `preparo` (text), `imagem` (text), `dificuldade` (text),`tempo` (text).
 
-3.  **Configure suas credenciais do Supabase:**
+4. **Configure suas credenciais do Supabase:**
     - Na pasta `lib/`, renomeie o arquivo `supabase_options.example.dart` para `supabase_options.dart`.
     - Abra o arquivo `supabase_options.dart` e preencha com a sua `url` e `anonKey` do Supabase.
 
-4.  **Execute o aplicativo:**
+5. **Execute o aplicativo:**
     ```sh
     flutter run
     ```
 
 ---
 
-Desenvolvido com ❤️ por [Seu Nome](https://github.com/SEU-USUARIO)
+Desenvolvido com ❤️ por [Isac Raimundo](https://github.com/Isac-Raimundo).
