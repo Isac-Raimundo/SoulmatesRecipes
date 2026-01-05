@@ -122,6 +122,67 @@ class _TelaDetalhesState extends State<TelaDetalhes> {
                     ),
                   ),
 
+                  // Botão de exlucir
+                  Positioned(
+                    top: screenHeight * 0.05,
+                    right: screenHeight * 0.02,
+                    child: GestureDetector(
+                      onTap: () {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog( // Confirmação de exclusão
+                              elevation: 4,
+                              backgroundColor: Color(0xff2c2217),
+                              title: Text('Confirmar Exclusão', style: TextStyle(color: Colors.white)),
+                              actions: <Widget>[
+                                TextButton(
+                                  child: Text('Cancelar', style: TextStyle(color: Colors.white70)),
+                                  onPressed: () {
+                                    Navigator.of(context).pop(); // Fecha o diálogo
+                                  },
+                                ),
+                                TextButton(
+                                  child: Text('Apagar', style: TextStyle(color: Colors.red)),
+                                  onPressed: () async {
+                                    // Se a houver imagem, apague a imagem do bucket
+                                    if (widget.receita['imagem'] != null && widget.receita['imagem'].isNotEmpty) {
+                                    // Metodo .split('/'). Divide o texto em uma lista, usando o '/' como separador da lista
+                                    // Já o .last pega o último item dessa lista que seria o arquivo da nossa imagem
+                                    await _deletarImagem(widget.receita['imagem'].split('/').last);
+                                    }
+
+                                    await deletarReceita(widget.receita['id']);
+
+                                    if (mounted) {
+                                    Navigator.of(context).pop(); // Fecha o diálogo
+                                    Navigator.of(context).pop(); // Fecha a tela de detalhes
+                                    }
+                                  },
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      },
+                      child: Container(
+                        height: screenHeight * 0.06,
+                        width: screenHeight * 0.06,
+                        decoration: BoxDecoration(
+                          color: Colors.red.withOpacity(0.5),
+                          borderRadius: BorderRadiusGeometry.circular(200),
+                        ),
+                        child: Center(
+                          child: Icon(
+                            CupertinoIcons.trash,
+                            color: Colors.red,
+                            size: screenHeight * 0.027,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+
                   // Nome da receita + infos
                   Positioned(
                     bottom: screenHeight * 0.02,
@@ -292,7 +353,8 @@ class _TelaDetalhesState extends State<TelaDetalhes> {
               if (widget.receita['preparo'].isNotEmpty)
                 Padding(
                   padding: EdgeInsetsGeometry.only(
-                      left: screenHeight * 0.02
+                      left: screenHeight * 0.02,
+                      top: screenHeight * 0.01,
                   ),
                   child: Text(
                     'Modo de Preparo',
@@ -305,19 +367,20 @@ class _TelaDetalhesState extends State<TelaDetalhes> {
                 ),
                 Padding(
                   padding: EdgeInsetsGeometry.only(
-                      left: screenHeight * 0.02
+                      left: screenHeight * 0.02,
+                      right: screenHeight * 0.02,
                   ),
                   child: Text(
+                    textAlign: TextAlign.justify,
                     widget.receita['preparo'],
                     style: TextStyle(
                       color: Colors.white.withOpacity(0.5),
                       fontSize: screenHeight * 0.018,
                     ),
                   ),
-                )
+                ),
 
-
-
+              SizedBox(height: screenHeight * 0.02,)
             ],
           ),
         ),

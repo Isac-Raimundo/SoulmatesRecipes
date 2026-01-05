@@ -74,3 +74,5 @@ Para rodar este projeto em sua máquina, siga os passos abaixo:
 ---
 
 Desenvolvido com ❤️ por [Isac Raimundo](https://github.com/Isac-Raimundo).
+
+Aceito dicas, obrigado.
