@@ -417,7 +417,6 @@ class _TelaCadastroState extends State<TelaCadastro> {
                           child: TextField(
                             controller: _tempoPreparoController,
                             textAlign: TextAlign.center,
-                            keyboardType: TextInputType.number,
                             cursorColor: Colors.white,
                             style: TextStyle(color: Colors.white),
                             decoration: InputDecoration(
