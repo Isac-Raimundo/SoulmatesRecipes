@@ -31,7 +31,7 @@ Este foi o meu primeiro projeto. Minha ideia foi aprender, então existem muitas
 
 ### | Adicionar Receita |
 
-| ![Adicionar Receita](assets/readme_images/ss.png) ![Adicionar Receita](assets/readme_images/ss1.png) |
+![Adicionar Receita](assets/readme_images/ss.png) ![Adicionar Receita](assets/readme_images/ss1.png)
 
 
 ## 🚀 Tecnologias Utilizadas
