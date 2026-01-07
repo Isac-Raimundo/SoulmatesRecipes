@@ -20,19 +20,21 @@ Este foi o meu primeiro projeto. Minha ideia foi aprender, então existem muitas
 
 ## 📸 Telas do Aplicativo
 
-[//]: # ()
-[//]: # (| Tela Principal | Detalhes da Receita |)
 
-[//]: # (| :---: | :---: |)
+| Tela Principal |
 
-[//]: # (| ![Tela Principal]&#40;URL_DA_IMAGEM_1_AQUI&#41; | ![Detalhes da Receita]&#40;URL_DA_IMAGEM_2_AQUI&#41; |)
+| :---: | :---: |
 
-[//]: # ()
-[//]: # (| Adicionar Receita |)
+| ![Tela Principal](assets/readme_images/Print1.png) |
 
-[//]: # (| :---: |)
+| Detalhes da Receita |
+| ![Detalhes da Receita](assets/readme_images/print%202.png) | | ![Detalhes da Receita](assets/readme_images/print%203.png) | | ![Detalhes da Receita](assets/readme_images/print%204.png) |
 
-[//]: # (| ![Adicionar Receita]&#40;URL_DA_IMAGEM_3_AQUI&#41; |)
+| Adicionar Receita |
+
+| :---: |
+
+| ![Adicionar Receita](assets/readme_images/ss.png) | ![Adicionar Receita](assets/readme_images/ss1.png) |
 
 
 ## 🚀 Tecnologias Utilizadas

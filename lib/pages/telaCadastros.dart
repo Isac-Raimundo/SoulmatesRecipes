@@ -360,9 +360,9 @@ class _TelaCadastroState extends State<TelaCadastro> {
                 itemCount: _passos.length,
                 itemBuilder: (context, index) {
                   return Card(
-                    color: Color(0xff221910),
+                    color: Colors.deepPurple.withOpacity(0.02),
                     child: Padding(
-                      padding: EdgeInsetsGeometry.symmetric(horizontal: 20),
+                      padding: EdgeInsetsGeometry.all(screenHeight*0.02),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -389,10 +389,11 @@ class _TelaCadastroState extends State<TelaCadastro> {
 
                           // Campo titulo
                           TextField(
+                            style: TextStyle(color: Colors.white),
                             controller: _passos[index].tituloController,
                             minLines: 1,
                             decoration: InputDecoration(
-                              hintText: 'Titulo do passo (Ex: bater a massa)',
+                              hintText:  index <= 0 ? 'Titulo do passo (Ex: bater a massa)' : 'Título',
                               hintStyle: TextStyle(
                                 color: Colors.white.withOpacity(0.3),
                               ),
@@ -409,10 +410,11 @@ class _TelaCadastroState extends State<TelaCadastro> {
 
                           // Campo descrição
                           TextField(
+                            style: TextStyle(color: Colors.white),
                             controller: _passos[index].descricaoController,
                             minLines: 1,
                             decoration: InputDecoration(
-                              hintText: 'Descrição detalhada do passo',
+                              hintText: index <= 0 ? 'Descrição detalhada do passo' : 'Descrição',
                               hintStyle: TextStyle(
                                 color: Colors.white.withOpacity(0.3),
                               ),
@@ -430,35 +432,11 @@ class _TelaCadastroState extends State<TelaCadastro> {
                   );
                 },
               ),
-
-              // TextField(
-              //   minLines: 1,
-              //   maxLines: null,
-              //   controller: _preparoController,
-              //   keyboardType: TextInputType.multiline,
-              //   cursorColor: Colors.white,
-              //   style: TextStyle(color: Colors.white),
-              //
-              //   decoration: InputDecoration(
-              //     fillColor: Colors.white.withOpacity(0.1),
-              //     filled: true,
-              //     hintText: 'Ex.: Em uma panela coloque...',
-              //     hintStyle: TextStyle(color: Colors.white.withOpacity(0.3)),
-              //     labelStyle: TextStyle(
-              //       fontWeight: FontWeight.bold,
-              //       color: Color(0xff1D1617),
-              //       fontSize: 20,
-              //     ),
-              //     border: OutlineInputBorder(
-              //       borderRadius: BorderRadius.circular(12),
-              //       borderSide: BorderSide.none,
-              //     ),
-              //   ),
-              // ),
             ),
 
             Padding(
-              padding: EdgeInsets.only(top: 8.0),
+
+              padding: EdgeInsets.only(left: screenHeight * 0.02, top: screenHeight * 0.009),
               child: TextButton.icon(
                 onPressed: () {
                   setState(() {

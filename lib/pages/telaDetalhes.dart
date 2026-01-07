@@ -31,6 +31,7 @@ Future<void> deletarReceita(int id) async {
 class _TelaDetalhesState extends State<TelaDetalhes> {
   // Apenas a lista de estados dos checkboxes precisa ser uma variável de estado.
   late List<bool> _ingredientesChecados;
+  late final downloadModoPreparo = widget.receita['preparo'];
 
   @override
   void initState() {
@@ -43,7 +44,6 @@ class _TelaDetalhesState extends State<TelaDetalhes> {
 
   @override
   Widget build(BuildContext context) {
-    // INICIALIZE AS VARIÁVEIS AQUI:
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
     final linhasIngredientes = widget.receita['ingredientes'].split('\n');
@@ -66,16 +66,16 @@ class _TelaDetalhesState extends State<TelaDetalhes> {
                     width: double.infinity,
                     child: widget.receita['imagem'] != null
                         ? Image.network(
-                            widget.receita['imagem'],
-                            fit: BoxFit.cover,
-                          )
+                      widget.receita['imagem'],
+                      fit: BoxFit.cover,
+                    )
                         : Center(
-                            child: Icon(
-                              Icons.restaurant_menu,
-                              color: Color(0xffec7f13),
-                              size: screenHeight * 0.055,
-                            ),
-                          ),
+                      child: Icon(
+                        Icons.restaurant_menu,
+                        color: Color(0xffec7f13),
+                        size: screenHeight * 0.055,
+                      ),
+                    ),
                   ),
 
                   // Fade por cima da imagem
@@ -131,32 +131,53 @@ class _TelaDetalhesState extends State<TelaDetalhes> {
                         showDialog(
                           context: context,
                           builder: (BuildContext context) {
-                            return AlertDialog( // Confirmação de exclusão
+                            return AlertDialog(
+                              // Confirmação de exclusão
                               elevation: 4,
                               backgroundColor: Color(0xff2c2217),
-                              title: Text('Confirmar Exclusão', style: TextStyle(color: Colors.white)),
+                              title: Text(
+                                'Confirmar Exclusão',
+                                style: TextStyle(color: Colors.white),
+                              ),
                               actions: <Widget>[
                                 TextButton(
-                                  child: Text('Cancelar', style: TextStyle(color: Colors.white70)),
+                                  child: Text(
+                                    'Cancelar',
+                                    style: TextStyle(color: Colors.white70),
+                                  ),
                                   onPressed: () {
-                                    Navigator.of(context).pop(); // Fecha o diálogo
+                                    Navigator.of(
+                                      context,
+                                    ).pop(); // Fecha o diálogo
                                   },
                                 ),
                                 TextButton(
-                                  child: Text('Apagar', style: TextStyle(color: Colors.red)),
+                                  child: Text(
+                                    'Apagar',
+                                    style: TextStyle(color: Colors.red),
+                                  ),
                                   onPressed: () async {
                                     // Se a houver imagem, apague a imagem do bucket
-                                    if (widget.receita['imagem'] != null && widget.receita['imagem'].isNotEmpty) {
-                                    // Metodo .split('/'). Divide o texto em uma lista, usando o '/' como separador da lista
-                                    // Já o .last pega o último item dessa lista que seria o arquivo da nossa imagem
-                                    await _deletarImagem(widget.receita['imagem'].split('/').last);
+                                    if (widget.receita['imagem'] != null &&
+                                        widget.receita['imagem'].isNotEmpty) {
+                                      // Metodo .split('/'). Divide o texto em uma lista, usando o '/' como separador da lista
+                                      // Já o .last pega o último item dessa lista que seria o arquivo da nossa imagem
+                                      await _deletarImagem(
+                                        widget.receita['imagem']
+                                            .split('/')
+                                            .last,
+                                      );
                                     }
 
                                     await deletarReceita(widget.receita['id']);
 
                                     if (mounted) {
-                                    Navigator.of(context).pop(); // Fecha o diálogo
-                                    Navigator.of(context).pop(); // Fecha a tela de detalhes
+                                      Navigator.of(
+                                        context,
+                                      ).pop(); // Fecha o diálogo
+                                      Navigator.of(
+                                        context,
+                                      ).pop(); // Fecha a tela de detalhes
                                     }
                                   },
                                 ),
@@ -233,7 +254,7 @@ class _TelaDetalhesState extends State<TelaDetalhes> {
 
               Divider(
                 height: screenHeight * 0.001,
-                color: Colors.white.withAlpha(20),
+                color: Colors.white,
                 endIndent: screenHeight * 0.02,
                 indent: screenHeight * 0.02,
               ),
@@ -333,11 +354,10 @@ class _TelaDetalhesState extends State<TelaDetalhes> {
                                 // Adiciona um padding para alinhar com o texto e não com o checkbox
                                 padding: EdgeInsets.only(
                                   left: screenWidth * 0.01,
-                                  right: screenWidth * 0.01
+                                  right: screenWidth * 0.01,
                                 ),
                                 child: Divider(
-                                  height:
-                                      screenHeight * 0.01,
+                                  height: screenHeight * 0.01,
                                   thickness: 0.5,
                                   color: Colors.white.withAlpha(40),
                                 ),
@@ -350,37 +370,114 @@ class _TelaDetalhesState extends State<TelaDetalhes> {
                 ),
               ),
 
-              if (widget.receita['preparo'].isNotEmpty)
+              // MODO DE PREPARO
+              if (widget.receita['preparo'] != null &&
+                  (widget.receita['preparo'] as List).isNotEmpty)
                 Padding(
-                  padding: EdgeInsetsGeometry.only(
-                      left: screenHeight * 0.02,
-                      top: screenHeight * 0.01,
+                  padding: EdgeInsets.symmetric(
+                    horizontal: screenHeight * 0.02,
+                    vertical: screenHeight * 0.01,
                   ),
-                  child: Text(
-                    'Modo de Preparo',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: screenHeight * 0.025,
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsetsGeometry.only(
-                      left: screenHeight * 0.02,
-                      right: screenHeight * 0.02,
-                  ),
-                  child: Text(
-                    textAlign: TextAlign.justify,
-                    widget.receita['preparo'].text,
-                    style: TextStyle(
-                      color: Colors.white.withOpacity(0.5),
-                      fontSize: screenHeight * 0.018,
-                    ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Título da Seção
+                      Text(
+                        'Modo de Preparo',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: screenHeight * 0.02,
+                        ),
+                      ),
+                      SizedBox(height: screenHeight * 0.01),
+
+                      // Mapeia a lista de passos para Widgets
+                      ...(widget.receita['preparo'] as List)
+                          .asMap() // Converte a lista para um mapa {índice: valor}
+                          .entries // Pega as entradas [MapEntry(0, passo1), MapEntry(1, passo2)]
+                          .map<Widget>((entry) {
+                        int index = entry.key;   // Pega o índice (0, 1, 2...)
+                        var passo = entry.value; // Pega o valor (o mapa do passo)
+
+                        return Padding(
+                          padding: EdgeInsets.only(
+                            bottom: screenHeight * 0.01,
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              // Título do Passo com número
+                              if (passo['titulo'] != null &&
+                                  passo['titulo'].isNotEmpty)
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start, // Alinha melhor se o texto quebrar linha
+                                  spacing: screenHeight*0.02,
+                                  children: [
+                                    // NÚMERO DO PASSO
+                                    Container(
+                                      width: screenHeight*0.05,
+                                      decoration: BoxDecoration(
+                                        color: Color(0xffec7f13).withOpacity(0.35),
+                                        borderRadius: BorderRadiusGeometry.circular(20),
+                                        border: Border.all(
+                                          color:  Color(0xffec7f13),
+                                          width: 1,
+                                        )
+                                      ),
+                                      child: Center(
+                                        child: Padding(
+                                          padding:  EdgeInsets.all(4.0),
+                                          child: Text(
+                                            '${index + 1}', // Adiciona o número (index + 1) e um ponto
+                                            style: TextStyle(
+                                              color: Colors.white, // Deixei mais branco para destacar
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: screenHeight * 0.018,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    // TÍTULO DO PASSO
+                                    Flexible( // para o texto quebrar linha corretamente
+                                      child: Text(
+                                        passo['titulo'],
+                                        style: TextStyle(
+                                          color: Colors.white.withOpacity(0.9),
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: screenHeight * 0.02,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+
+                              SizedBox(height: screenHeight * 0.005),
+
+                              // Descrição do Passo
+                              if (passo['descricao'] != null &&
+                                  passo['descricao'].isNotEmpty)
+                                Padding(
+                                  padding: EdgeInsets.only(left: screenHeight*0.07, right: screenHeight*0.02),
+                                  child: Text(
+                                    passo['descricao'],
+                                    textAlign: TextAlign.justify,
+                                    style: TextStyle(
+                                      color: Colors.white.withOpacity(0.7),
+                                      fontSize: screenHeight * 0.018,
+                                    ),
+                                  ),
+                                ),
+                            ],
+                          ),
+                        );
+                      }).toList(),
+                    ],
                   ),
                 ),
 
-              SizedBox(height: screenHeight * 0.02,)
+              SizedBox(height: screenHeight * 0.02),
             ],
           ),
         ),
